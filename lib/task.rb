@@ -31,4 +31,16 @@ class Task
   define_method(:==) do |another_task|
     self.description().==(another_task.description()).&(self.list_id().==(another_task.list_id))
   end
+
+  define_singleton_method(:by_list) do |id|
+    returned_tasks = DB.exec("SELECT * FROM tasks WHERE list_id = #{id};")
+    tasks = []
+    returned_tasks.each() do |task|
+      description = task.fetch("description")
+      due_date = task.fetch("due_date")
+      list_id = task.fetch("list_id").to_i
+      tasks.push(Task.new({:description => description, :list_id => list_id, :due_date => due_date}))
+    end
+    tasks
+  end
 end

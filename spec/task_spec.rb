@@ -44,4 +44,16 @@ describe(Task) do
       expect(task1).to(eq(task2))
     end
   end
+
+  describe('.by_list') do
+    it('returns an array of Task objects sharing a list id') do
+      task1 = Task.new({:description => 'wash tacocat', :due_date => '2015-08-16 00:00:00', :list_id => 1})
+      task2 = Task.new({:description => 'scrub the zebra', :due_date => '2015-08-17 00:00:00', :list_id => 1})
+      task3 = Task.new({:description => 'reassemblar el coche de safari', :due_date => '2015-08-18', :list_id => 2})
+      task1.save
+      task2.save
+      task3.save
+      expect(Task.by_list(1)).to(eq([task1, task2]))
+    end
+  end
 end
