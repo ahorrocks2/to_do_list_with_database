@@ -56,4 +56,16 @@ describe(Task) do
       expect(Task.by_list(1)).to(eq([task1, task2]))
     end
   end
+
+  describe('.order_list') do
+    it('orders the tasks based on their due date') do
+      task1 = Task.new({:description => 'push the donkey', :due_date => '2015-08-24 00:00:00', :list_id => 2})
+      task2 = Task.new({:description => 'pet the lion', :due_date => '2015-08-18 00:00:00', :list_id => 2})
+      task3 = Task.new({:description => 'kill the stag', :due_date => '1942-08-23 00:00:00', :list_id => 2})
+      task1.save
+      task2.save
+      task3.save
+      expect(Task.order_list(2)).to(eq([task3, task2, task1]))
+    end
+  end
 end

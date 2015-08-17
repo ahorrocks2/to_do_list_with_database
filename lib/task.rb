@@ -43,4 +43,16 @@ class Task
     end
     tasks
   end
+
+  define_singleton_method(:order_list) do |id|
+    returned_tasks = DB.exec("SELECT * FROM tasks WHERE list_id = #{id} ORDER BY due_date;")
+    tasks = []
+    returned_tasks.each() do |task|
+      description = task.fetch("description")
+      due_date = task.fetch("due_date")
+      list_id = task.fetch("list_id").to_i
+      tasks.push(Task.new({:description => description, :list_id => list_id, :due_date => due_date}))
+    end
+    tasks
+  end
 end
