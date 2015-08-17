@@ -1,5 +1,4 @@
 class Task
-  @@all_tasks =[]
 
   define_method(:initialize) do |description|
     @description = description
@@ -14,7 +13,13 @@ class Task
   end
 
   define_singleton_method(:all) do
-    @@all_tasks
+    returned_tasks = DB.exec("SELECT * FROM tasks;")
+    tasks =[]
+    return_tasks.each() do |task|
+      description = task.fetch("description")
+      task.push(Task.new({:description => description}))
+    end
+    tasks
   end
 
   define_method(:save) do
